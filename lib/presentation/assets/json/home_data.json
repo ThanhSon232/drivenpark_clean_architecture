@@ -1,0 +1,38 @@
+[
+  {
+    "addressName": "Hồ Chí Minh",
+    "latitude": 10.7764772,
+    "longitude": 106.701938,
+    "imageURL": "lib/presentation/assets/images/saigon.jpeg"
+  },
+  {
+    "addressName": "Hà Nội",
+    "latitude": 20.97485415,
+    "longitude": 105.67557499591751,
+    "imageURL": "lib/presentation/assets/images/hanoi.jpeg"
+  },
+  {
+    "addressName": "Đà Lạt",
+    "latitude": 11.9402416,
+    "longitude": 108.4375758,
+    "imageURL": "lib/presentation/assets/images/dalat.jpeg"
+  },
+  {
+    "addressName": "Vũng Tàu",
+    "latitude": 10.3486485,
+    "longitude": 107.0765028,
+    "imageURL": "lib/presentation/assets/images/vungtau.jpeg"
+  },
+  {
+    "addressName": "Đà Nẵng",
+    "latitude": 16.068,
+    "longitude": 108.212,
+    "imageURL": "lib/presentation/assets/images/danang.jpeg"
+  },
+  {
+    "addressName": "Huế",
+    "latitude": 16.4639321,
+    "longitude": 107.5863388,
+    "imageURL": "lib/presentation/assets/images/hue.jpeg"
+  }
+]
