@@ -9,5 +9,6 @@ class PageConst{
   static const String dateTimePage = "dateTimePage";
   static const String selfSearchResult = "selfSearchResult";
   static const String searchWithDriver = "searchWithDriver";
+  static const String selfCarDetailPage = "selfCarDetailPage";
 
 }

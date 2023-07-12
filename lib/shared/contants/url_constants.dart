@@ -8,5 +8,6 @@ class URLConstants{
   static const refreshTokenPath = "api/Auth/refresh-token";
   static const getMePath = "api/Auth/me";
   static const sendOTP = "api/User/generate-otp-forgot-password";
+  static const selfSearch = "car/search";
 
 }

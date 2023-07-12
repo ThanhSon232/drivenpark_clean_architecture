@@ -7,6 +7,10 @@ extension TimeOfDayExtension on TimeOfDay {
 
 }
 
+extension Ex on double {
+  double toPrecision(int n) => double.parse(toStringAsFixed(n));
+}
+
 extension DateTimeExtension on DateTime{
   DateTime addTime(TimeOfDay timeOfDay){
     return add(Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute));

@@ -6,7 +6,7 @@ abstract class SelfSearchResultState extends Equatable {
   List<Object?> get props => [];
 }
 
-class SelfSearchResultInitial extends SelfSearchResultState{}
+class SelfSearchResultInitial extends SelfSearchResultState {}
 
 class SelfSearchResultLoading extends SelfSearchResultState {
   final bool isLoading;
@@ -15,4 +15,22 @@ class SelfSearchResultLoading extends SelfSearchResultState {
   List<Object?> get props => [isLoading];
 
   SelfSearchResultLoading({required this.isLoading});
+}
+
+class SelfSearchResultLoaded extends SelfSearchResultState {
+  final List<CarBasicInfo> data;
+
+  @override
+  List<Object?> get props => [data];
+
+  SelfSearchResultLoaded({required this.data});
+}
+
+class SelfSearchResultError extends SelfSearchResultState {
+  final String error;
+
+  @override
+  List<Object?> get props => [error];
+
+  SelfSearchResultError({required this.error});
 }

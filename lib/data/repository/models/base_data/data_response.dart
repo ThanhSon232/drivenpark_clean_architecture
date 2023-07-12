@@ -4,7 +4,8 @@ part 'data_response.g.dart';
 @JsonSerializable(genericArgumentFactories: true)
 class DataResponse<T>{
   DataResponse({
-    @JsonKey(name: 'data') this.data,
+    this.data,
+    this.total
     // @JsonKey(name: 'meta') this.meta,
   });
 
@@ -13,5 +14,6 @@ class DataResponse<T>{
       _$DataResponseFromJson(json, fromJsonT);
 
   final T? data;
+  final int? total;
   // final Meta? meta;
 }

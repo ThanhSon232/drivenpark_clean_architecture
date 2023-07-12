@@ -7,6 +7,8 @@ import 'package:clean_architecture_app/presentation/ui/login/bloc/login_cubit.da
 import 'package:clean_architecture_app/presentation/ui/register/bloc/register_cubit.dart';
 import 'package:clean_architecture_app/presentation/ui/search/bloc/search_location_cubit.dart';
 import 'package:clean_architecture_app/presentation/ui/search/search_location_page.dart';
+import 'package:clean_architecture_app/presentation/ui/self_drive/self_car_detail/bloc/self_car_detail_cubit.dart';
+import 'package:clean_architecture_app/presentation/ui/self_drive/self_car_detail/self_car_detail_page.dart';
 import 'package:clean_architecture_app/presentation/ui/self_drive/self_search_result/bloc/self_search_result_cubit.dart';
 import 'package:clean_architecture_app/presentation/ui/self_drive/self_search_result/self_search_result_page.dart';
 import 'package:clean_architecture_app/presentation/ui/verification/bloc/verification_cubit.dart';
@@ -24,7 +26,11 @@ class OnGenerateRoute{
     final di = GetIt.instance;
 
     switch (settings.name){
-
+      case PageConst.selfCarDetailPage:
+        return MaterialPageRoute(builder: (context) => BlocProvider.value(
+          value: di.get<SelfCarDetailCubit>(),
+          child: SelfCarDetailPage(arguments: args as Map<String,dynamic>,),
+        ));
       case PageConst.selfSearchResult:
         return MaterialPageRoute(builder: (context) => BlocProvider.value(
           value: di.get<SelfSearchResultCubit>(),

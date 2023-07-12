@@ -12,6 +12,7 @@ DataResponse<T> _$DataResponseFromJson<T>(
 ) =>
     DataResponse<T>(
       data: _$nullableGenericFromJson(json['data'], fromJsonT),
+      total: json['total'] as int?,
     );
 
 Map<String, dynamic> _$DataResponseToJson<T>(
@@ -20,6 +21,7 @@ Map<String, dynamic> _$DataResponseToJson<T>(
 ) =>
     <String, dynamic>{
       'data': _$nullableGenericToJson(instance.data, toJsonT),
+      'total': instance.total,
     };
 
 T? _$nullableGenericFromJson<T>(
