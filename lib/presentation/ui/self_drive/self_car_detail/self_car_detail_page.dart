@@ -1,13 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clean_architecture_app/domain/entities/car_detail_info.dart';
+import 'package:clean_architecture_app/domain/entities/owner_basic_info.dart';
 import 'package:clean_architecture_app/presentation/common_view/car_detail/owner_component.dart';
+import 'package:clean_architecture_app/presentation/common_view/car_detail/price_component.dart';
 import 'package:clean_architecture_app/presentation/common_view/car_detail/rating_component.dart';
 import 'package:clean_architecture_app/presentation/common_view/size_horizontal.dart';
 import 'package:clean_architecture_app/presentation/common_view/size_vertical.dart';
 import 'package:clean_architecture_app/presentation/common_view/text_with_icon.dart';
 import 'package:clean_architecture_app/presentation/resources/styles/app_colors.dart';
 import 'package:clean_architecture_app/presentation/resources/styles/app_text_style.dart';
+import 'package:clean_architecture_app/presentation/ui/self_drive/self_car_detail/bloc/self_car_detail_cubit.dart';
+import 'package:clean_architecture_app/shared/helper/money_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+
+import '../../../../shared/dialog/snackbar.dart';
 
 class SelfCarDetailPage extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -22,56 +31,101 @@ class SelfCarDetailPage extends StatefulWidget {
 class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
   List<String> sample = ["Bluetooth", "GPS", "CD/DVD", "AC"];
   List<String> sample1 = ["Bluetooth", "GPS", "CD/DVD", "AC"];
+  final _cubit = GetIt.instance.get<SelfCarDetailCubit>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _cubit.load(widget.arguments["id"]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.white400,
-            expandedHeight: 200,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                      height: 400.0,
-                      viewportFraction: 1.0,
-                      enableInfiniteScroll: false),
-                  items: [1, 2, 3, 4, 5].map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return CachedNetworkImage(
-                          imageUrl: "https://robbreport.com/wp-content/uploads/2022/11/2-7.jpg?w=1000",
-                          fit: BoxFit.fill,
-                        );
-                      },
-                    );
-                  }).toList(),
+      body: BlocConsumer<SelfCarDetailCubit, SelfCarDetailState>(
+        listener: (context, state) {
+          if (state is SelfCarDetailLoading) {
+            state.isLoading
+                ? showLoaderDialog(context)
+                : dismissLoaderDialog(context);
+          }
+        },
+        builder: (context, state) {
+          if (state is SelfCarDetailLoaded) {
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: AppColors.white400,
+                  expandedHeight: 200,
+                  pinned: true,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Stack(children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            height: 400.0,
+                            viewportFraction: 1.0,
+                            enableInfiniteScroll: false),
+                        items: state.data.imageURL.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return CachedNetworkImage(
+                                imageUrl: i,
+                                fit: BoxFit.fill,
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ]),
+                  ),
+                  actions: [
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.more_vert))
+                  ],
                 ),
-              ]),
+                basicInfo(data: state.data),
+                divider(),
+                title(title: "Rental policies"),
+                rentalPolicies(data: state.data.policies),
+                divider(),
+                title(title: "Rental requirements"),
+                rentalRequirements(data: state.data.rentalRequirements),
+                divider(),
+                title(title: "Important information"),
+                importantInformation(),
+                divider(),
+                title(title: "Location"),
+                location(address: state.data.address.address),
+                divider(),
+                title(title: "Owner"),
+                ownerAndReview(ownerBasicInfo: state.data.owner, star: state.data.rating)
+              ],
+            );
+          } else if (state is SelfCarDetailError) {
+            return Center(
+              child: Text(state.error),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
+      bottomNavigationBar: BlocBuilder<SelfCarDetailCubit, SelfCarDetailState>(
+        builder: (context, state) {
+        if(state is SelfCarDetailLoaded){
+          return Container(
+            decoration: BoxDecoration(border: Border.all()),
+            child: SafeArea(
+              child: PriceComponent(
+                price: state.data.price,
+                chatCommand: () {},
+                continueCommand: () {},
+              ),
             ),
-            actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
-            ],
-          ),
-          basicInfo(),
-          divider(),
-          title(title: "Rental policies"),
-          rentalPolicies(data: sample1),
-          divider(),
-          title(title: "Rental requirements"),
-          rentalRequirements(data: sample1),
-          divider(),
-          title(title: "Important information"),
-          importantInformation(),
-          divider(),
-          title(title: "Location"),
-          location(),
-          divider(),
-          title(title: "Owner"),
-          ownerAndReview()
-        ],
+          );
+        }
+        return const SizedBox();
+        },
       ),
     );
   }
@@ -85,7 +139,7 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
     );
   }
 
-  Widget basicInfo() {
+  Widget basicInfo({required CarDetailInfo data}) {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -93,65 +147,72 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Chrysler 300",
+              data.carName,
               style: AppTextStyle.largeMedium,
             ),
             const SizeVer(height: 5),
-            highlightInfo(),
+            highlightInfo(
+                seat: data.seat,
+                type: data.type,
+                manufacturedYear: data.manufacturedYear,
+                transmission: data.transmission),
             const SizeVer(height: 10),
             Text(
               "Features",
               style: AppTextStyle.baseBook.copyWith(color: AppColors.white500),
             ),
-            features(sample)
+            features(data.features)
           ],
         ),
       ),
     );
   }
 
-  Widget highlightInfo() {
+  Widget highlightInfo({required String seat,
+    required String type,
+    required String manufacturedYear,
+    required String transmission}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             TextWithIcon(
-              text: "9",
+              text: seat,
               icon: Icon(
                 Icons.airline_seat_recline_extra,
                 size: 20,
                 color: AppColors.blue300,
               ),
               textStyle:
-                  AppTextStyle.baseMedium.copyWith(color: AppColors.blue300),
+              AppTextStyle.baseMedium.copyWith(color: AppColors.blue300),
             ),
             const SizeHor(width: 20),
             TextWithIcon(
-              text: "Electric",
+              text: type,
               icon: Icon(
                 Icons.luggage,
                 size: 20,
                 color: AppColors.blue300,
               ),
               textStyle:
-                  AppTextStyle.baseMedium.copyWith(color: AppColors.blue300),
+              AppTextStyle.baseMedium.copyWith(color: AppColors.blue300),
             ),
             const SizeHor(width: 20),
             TextWithIcon(
-              text: "2016",
+              text: manufacturedYear,
               icon: Icon(
                 Icons.directions_car,
                 size: 20,
                 color: AppColors.blue300,
               ),
               textStyle:
-                  AppTextStyle.baseMedium.copyWith(color: AppColors.blue300),
+              AppTextStyle.baseMedium.copyWith(color: AppColors.blue300),
             ),
           ],
         ),
         TextWithIcon(
-          text: "Manual",
+          text: transmission,
           icon: Icon(
             Icons.loop,
             size: 20,
@@ -166,20 +227,21 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
   Widget features(List<String> data) {
     return Wrap(
       children: data
-          .map((e) => Card(
-                color: AppColors.blue50,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: AppColors.white300),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      e,
-                      style: AppTextStyle.smallBook
-                          .copyWith(color: AppColors.blue300),
-                    )),
-              ))
+          .map((e) =>
+          Card(
+            color: AppColors.blue50,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: AppColors.white300),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  e,
+                  style: AppTextStyle.smallBook
+                      .copyWith(color: AppColors.blue300),
+                )),
+          ))
           .toList(),
     );
   }
@@ -198,9 +260,9 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
   Widget rentalPolicies({required List<String> data}) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+            (BuildContext context, int index) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: TextWithIcon(
               text: data[index],
               icon: Icon(
@@ -219,7 +281,7 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
   Widget rentalRequirements({required List<String> data}) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+            (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: TextWithIcon(
@@ -267,7 +329,7 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
     );
   }
 
-  Widget location() {
+  Widget location({required String address, double? lat, double? lon}) {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -275,7 +337,7 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextWithIcon(
-              text: "District 3, Ho Chi Minh City",
+              text: address,
               icon: Icon(
                 Icons.location_on_outlined,
                 color: AppColors.blue300,
@@ -288,23 +350,24 @@ class _SelfCarDetailPageState extends State<SelfCarDetailPage> {
     );
   }
 
-  Widget ownerAndReview() {
+  Widget ownerAndReview({required OwnerBasicInfo ownerBasicInfo, required String star}) {
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: OwnerComponent(
               onPressed: null,
-              name: "Thanh Son",
+              avatarURL: ownerBasicInfo.avatarURL,
+              name: ownerBasicInfo.fullName,
             ),
           ),
           Divider(
             thickness: 1,
             color: Colors.grey[300],
           ),
-          RatingComponent()
+          RatingComponent(star: star,)
         ],
       ),
     );

@@ -10,7 +10,6 @@ final globalNavigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   await di.init();
   await GetIt.instance.allReady();
-  // Hive.registerAdapter(SearchLocationModelAdapter());
   runApp(const MyApp());
 }
 

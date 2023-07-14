@@ -3,16 +3,17 @@ import 'package:clean_architecture_app/presentation/resources/styles/app_colors.
 import 'package:clean_architecture_app/presentation/resources/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 class OwnerComponent extends StatelessWidget {
-  const OwnerComponent({Key? key, required this.onPressed, required this.name}) : super(key: key);
+  const OwnerComponent({Key? key, required this.onPressed, required this.name, required this.avatarURL}) : super(key: key);
   final void Function()? onPressed;
   final String name;
+  final String avatarURL;
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         ClipOval(
           child: CachedNetworkImage(
-              imageUrl: "https://robbreport.com/wp-content/uploads/2022/11/2-7.jpg?w=1000",
+              imageUrl: avatarURL,
             height: 60,
             width: 60,
             fit: BoxFit.fill,

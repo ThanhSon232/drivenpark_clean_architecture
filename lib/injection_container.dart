@@ -12,6 +12,7 @@ import 'package:clean_architecture_app/domain/repositories/credential_repository
 import 'package:clean_architecture_app/domain/repositories/local_repository.dart';
 import 'package:clean_architecture_app/domain/repositories/location_repository.dart';
 import 'package:clean_architecture_app/domain/usecases/generate_otp_use_case.dart';
+import 'package:clean_architecture_app/domain/usecases/get_car_detail_use_case.dart';
 import 'package:clean_architecture_app/domain/usecases/get_home_data_use_case.dart';
 import 'package:clean_architecture_app/domain/usecases/get_search_location_self_use_case.dart';
 import 'package:clean_architecture_app/domain/usecases/login_use_case.dart';
@@ -50,7 +51,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SelfDriveSearchCubit>(() => SelfDriveSearchCubit(sl()));
   sl.registerLazySingleton<SelfSearchResultCubit>(() => SelfSearchResultCubit(sl()));
   sl.registerLazySingleton<SearchWithDriverCubit>(() => SearchWithDriverCubit());
-  sl.registerLazySingleton<SelfCarDetailCubit>(() => SelfCarDetailCubit());
+  sl.registerLazySingleton<SelfCarDetailCubit>(() => SelfCarDetailCubit(sl()));
 
   // sl.registerSingleton<HomeCubit>(() => HomeCubit(sl()));
 
@@ -66,6 +67,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SearchLocationUseCase(sl()));
   sl.registerLazySingleton(() => GetSearchLocationSelfUseCase(sl()));
   sl.registerLazySingleton(() => SelfSearchUseCase(sl()));
+  sl.registerLazySingleton(() => GetCarDetailUseCase(sl()));
 
   //dio
   sl.registerLazySingleton<Dio>(() => DioBuilder.getInstance());

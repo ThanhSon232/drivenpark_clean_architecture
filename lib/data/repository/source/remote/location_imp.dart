@@ -1,6 +1,5 @@
 import 'package:clean_architecture_app/data/repository/source/remote/api/search_api_service.dart';
 import 'package:clean_architecture_app/domain/entities/location.dart';
-import 'package:clean_architecture_app/domain/repositories/local_repository.dart';
 import 'package:clean_architecture_app/domain/repositories/location_repository.dart';
 import 'package:clean_architecture_app/shared/error/failure.dart';
 import 'package:dartz/dartz.dart';

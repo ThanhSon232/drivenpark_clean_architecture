@@ -5,7 +5,8 @@ import 'package:clean_architecture_app/presentation/resources/styles/app_text_st
 import 'package:flutter/material.dart';
 
 class RatingComponent extends StatelessWidget {
-  const RatingComponent({Key? key}) : super(key: key);
+  final String star;
+  const RatingComponent({Key? key, required this.star}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class RatingComponent extends StatelessWidget {
             style: AppTextStyle.baseMedium,
           ),
           subtitle: TextWithIcon(
-            text: "5.0",
+            text: star,
             icon: Icon(
               Icons.star,
               color: AppColors.yellow300,

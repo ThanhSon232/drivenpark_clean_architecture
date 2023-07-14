@@ -9,5 +9,6 @@ class URLConstants{
   static const getMePath = "api/Auth/me";
   static const sendOTP = "api/User/generate-otp-forgot-password";
   static const selfSearch = "car/search";
+  static const carDetail = "car/{id}";
 
 }

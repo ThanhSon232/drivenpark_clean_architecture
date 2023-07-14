@@ -21,6 +21,7 @@ mixin _$CarDetailInfo {
   String get price => throw _privateConstructorUsedError;
   String get rating => throw _privateConstructorUsedError;
   bool get supportDelivery => throw _privateConstructorUsedError;
+  List<String> get policies => throw _privateConstructorUsedError;
   List<String> get imageURL => throw _privateConstructorUsedError;
   SearchLocation get address => throw _privateConstructorUsedError;
   OwnerBasicInfo get owner => throw _privateConstructorUsedError;
@@ -29,6 +30,8 @@ mixin _$CarDetailInfo {
   List<String> get features => throw _privateConstructorUsedError;
   String get manufacturedYear => throw _privateConstructorUsedError;
   String get seat => throw _privateConstructorUsedError;
+  String get transmission => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CarDetailInfoCopyWith<CarDetailInfo> get copyWith =>
@@ -47,6 +50,7 @@ abstract class $CarDetailInfoCopyWith<$Res> {
       String price,
       String rating,
       bool supportDelivery,
+      List<String> policies,
       List<String> imageURL,
       SearchLocation address,
       OwnerBasicInfo owner,
@@ -54,7 +58,9 @@ abstract class $CarDetailInfoCopyWith<$Res> {
       List<String> rentalRequirements,
       List<String> features,
       String manufacturedYear,
-      String seat});
+      String seat,
+      String transmission,
+      String type});
 
   $SearchLocationCopyWith<$Res> get address;
   $OwnerBasicInfoCopyWith<$Res> get owner;
@@ -78,6 +84,7 @@ class _$CarDetailInfoCopyWithImpl<$Res, $Val extends CarDetailInfo>
     Object? price = null,
     Object? rating = null,
     Object? supportDelivery = null,
+    Object? policies = null,
     Object? imageURL = null,
     Object? address = null,
     Object? owner = null,
@@ -86,6 +93,8 @@ class _$CarDetailInfoCopyWithImpl<$Res, $Val extends CarDetailInfo>
     Object? features = null,
     Object? manufacturedYear = null,
     Object? seat = null,
+    Object? transmission = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -108,6 +117,10 @@ class _$CarDetailInfoCopyWithImpl<$Res, $Val extends CarDetailInfo>
           ? _value.supportDelivery
           : supportDelivery // ignore: cast_nullable_to_non_nullable
               as bool,
+      policies: null == policies
+          ? _value.policies
+          : policies // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       imageURL: null == imageURL
           ? _value.imageURL
           : imageURL // ignore: cast_nullable_to_non_nullable
@@ -139,6 +152,14 @@ class _$CarDetailInfoCopyWithImpl<$Res, $Val extends CarDetailInfo>
       seat: null == seat
           ? _value.seat
           : seat // ignore: cast_nullable_to_non_nullable
+              as String,
+      transmission: null == transmission
+          ? _value.transmission
+          : transmission // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -174,6 +195,7 @@ abstract class _$$_CarDetailInfoCopyWith<$Res>
       String price,
       String rating,
       bool supportDelivery,
+      List<String> policies,
       List<String> imageURL,
       SearchLocation address,
       OwnerBasicInfo owner,
@@ -181,7 +203,9 @@ abstract class _$$_CarDetailInfoCopyWith<$Res>
       List<String> rentalRequirements,
       List<String> features,
       String manufacturedYear,
-      String seat});
+      String seat,
+      String transmission,
+      String type});
 
   @override
   $SearchLocationCopyWith<$Res> get address;
@@ -205,6 +229,7 @@ class __$$_CarDetailInfoCopyWithImpl<$Res>
     Object? price = null,
     Object? rating = null,
     Object? supportDelivery = null,
+    Object? policies = null,
     Object? imageURL = null,
     Object? address = null,
     Object? owner = null,
@@ -213,6 +238,8 @@ class __$$_CarDetailInfoCopyWithImpl<$Res>
     Object? features = null,
     Object? manufacturedYear = null,
     Object? seat = null,
+    Object? transmission = null,
+    Object? type = null,
   }) {
     return _then(_$_CarDetailInfo(
       id: null == id
@@ -235,6 +262,10 @@ class __$$_CarDetailInfoCopyWithImpl<$Res>
           ? _value.supportDelivery
           : supportDelivery // ignore: cast_nullable_to_non_nullable
               as bool,
+      policies: null == policies
+          ? _value._policies
+          : policies // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       imageURL: null == imageURL
           ? _value._imageURL
           : imageURL // ignore: cast_nullable_to_non_nullable
@@ -267,6 +298,14 @@ class __$$_CarDetailInfoCopyWithImpl<$Res>
           ? _value.seat
           : seat // ignore: cast_nullable_to_non_nullable
               as String,
+      transmission: null == transmission
+          ? _value.transmission
+          : transmission // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -280,6 +319,7 @@ class _$_CarDetailInfo implements _CarDetailInfo {
       this.price = "",
       this.rating = "",
       this.supportDelivery = false,
+      final List<String> policies = const [],
       final List<String> imageURL = const [],
       this.address =
           const SearchLocation(address: "", coordinate: LatLng(0, 0)),
@@ -288,8 +328,11 @@ class _$_CarDetailInfo implements _CarDetailInfo {
       final List<String> rentalRequirements = const [],
       final List<String> features = const [],
       this.manufacturedYear = "",
-      this.seat = ""})
-      : _imageURL = imageURL,
+      this.seat = "",
+      this.transmission = "",
+      this.type = ""})
+      : _policies = policies,
+        _imageURL = imageURL,
         _rentalRequirements = rentalRequirements,
         _features = features;
 
@@ -308,6 +351,15 @@ class _$_CarDetailInfo implements _CarDetailInfo {
   @override
   @JsonKey()
   final bool supportDelivery;
+  final List<String> _policies;
+  @override
+  @JsonKey()
+  List<String> get policies {
+    if (_policies is EqualUnmodifiableListView) return _policies;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_policies);
+  }
+
   final List<String> _imageURL;
   @override
   @JsonKey()
@@ -351,10 +403,16 @@ class _$_CarDetailInfo implements _CarDetailInfo {
   @override
   @JsonKey()
   final String seat;
+  @override
+  @JsonKey()
+  final String transmission;
+  @override
+  @JsonKey()
+  final String type;
 
   @override
   String toString() {
-    return 'CarDetailInfo(id: $id, carName: $carName, price: $price, rating: $rating, supportDelivery: $supportDelivery, imageURL: $imageURL, address: $address, owner: $owner, plate: $plate, rentalRequirements: $rentalRequirements, features: $features, manufacturedYear: $manufacturedYear, seat: $seat)';
+    return 'CarDetailInfo(id: $id, carName: $carName, price: $price, rating: $rating, supportDelivery: $supportDelivery, policies: $policies, imageURL: $imageURL, address: $address, owner: $owner, plate: $plate, rentalRequirements: $rentalRequirements, features: $features, manufacturedYear: $manufacturedYear, seat: $seat, transmission: $transmission, type: $type)';
   }
 
   @override
@@ -368,6 +426,7 @@ class _$_CarDetailInfo implements _CarDetailInfo {
             (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.supportDelivery, supportDelivery) ||
                 other.supportDelivery == supportDelivery) &&
+            const DeepCollectionEquality().equals(other._policies, _policies) &&
             const DeepCollectionEquality().equals(other._imageURL, _imageURL) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.owner, owner) || other.owner == owner) &&
@@ -377,7 +436,10 @@ class _$_CarDetailInfo implements _CarDetailInfo {
             const DeepCollectionEquality().equals(other._features, _features) &&
             (identical(other.manufacturedYear, manufacturedYear) ||
                 other.manufacturedYear == manufacturedYear) &&
-            (identical(other.seat, seat) || other.seat == seat));
+            (identical(other.seat, seat) || other.seat == seat) &&
+            (identical(other.transmission, transmission) ||
+                other.transmission == transmission) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
@@ -388,6 +450,7 @@ class _$_CarDetailInfo implements _CarDetailInfo {
       price,
       rating,
       supportDelivery,
+      const DeepCollectionEquality().hash(_policies),
       const DeepCollectionEquality().hash(_imageURL),
       address,
       owner,
@@ -395,7 +458,9 @@ class _$_CarDetailInfo implements _CarDetailInfo {
       const DeepCollectionEquality().hash(_rentalRequirements),
       const DeepCollectionEquality().hash(_features),
       manufacturedYear,
-      seat);
+      seat,
+      transmission,
+      type);
 
   @JsonKey(ignore: true)
   @override
@@ -411,6 +476,7 @@ abstract class _CarDetailInfo implements CarDetailInfo {
       final String price,
       final String rating,
       final bool supportDelivery,
+      final List<String> policies,
       final List<String> imageURL,
       final SearchLocation address,
       final OwnerBasicInfo owner,
@@ -418,7 +484,9 @@ abstract class _CarDetailInfo implements CarDetailInfo {
       final List<String> rentalRequirements,
       final List<String> features,
       final String manufacturedYear,
-      final String seat}) = _$_CarDetailInfo;
+      final String seat,
+      final String transmission,
+      final String type}) = _$_CarDetailInfo;
 
   @override
   int get id;
@@ -430,6 +498,8 @@ abstract class _CarDetailInfo implements CarDetailInfo {
   String get rating;
   @override
   bool get supportDelivery;
+  @override
+  List<String> get policies;
   @override
   List<String> get imageURL;
   @override
@@ -446,6 +516,10 @@ abstract class _CarDetailInfo implements CarDetailInfo {
   String get manufacturedYear;
   @override
   String get seat;
+  @override
+  String get transmission;
+  @override
+  String get type;
   @override
   @JsonKey(ignore: true)
   _$$_CarDetailInfoCopyWith<_$_CarDetailInfo> get copyWith =>
